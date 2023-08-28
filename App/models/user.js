@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../util/database')
+const Todo = require('./todo')
 
 const User = db.define('user', {
     id: {
@@ -11,12 +12,14 @@ const User = db.define('user', {
     email: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
     },
     password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     }
 })
+
+User.hasMany(Todo, {onDelete: 'CASCADE'})
 
 module.exports = User

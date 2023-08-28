@@ -1,5 +1,7 @@
 const User = require('../models/user')
+const config = require('../util/config')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 class userController {
     async register(req, res){
@@ -7,12 +9,14 @@ class userController {
             const { email, password } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
     
-            await User.create({
+            const user = await User.create({
                 email: email,
                 password: hashedPassword
             });
+
+            const token = jwt.sign({ userId: user.id}, config.jwtSecret, {expiresIn: '1h'})
     
-            res.status(201).json({ message: 'User registered successfully' });
+            res.status(201).json({ message: 'User registered successfully', token: token });
         } 
         catch (err) {
             res.status(500).json({ error: err.message });

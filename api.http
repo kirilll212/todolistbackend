@@ -4,8 +4,8 @@ POST {{url}}/users/register
 Content-Type: application/json
 
 {
-    "email":"bhhjj",
-    "password":"1234"
+    "email":"superAcc",
+    "password":"277353"
 }
 
 ###
@@ -14,14 +14,16 @@ POST {{url}}/users/login
 Content-Type: application/json
 
 {
-    "email":"bhhjj",
-    "password":"1234"
+    "email":"superAcc",
+    "password":"277353"
 }
 
 ###
 
 POST {{url}}/todos/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIxODg2MywiZXhwIjoxNjkzMjIyNDYzfQ.MDxkzsPyONliYggO-H2Q5ACsDBPz7iMjDFMo_Vm7VhY
+
 
 {
     "todo":"123"
@@ -31,6 +33,7 @@ Content-Type: application/json
 
 GET {{url}}/todos/list
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIxODg2MywiZXhwIjoxNjkzMjIyNDYzfQ.MDxkzsPyONliYggO-H2Q5ACsDBPz7iMjDFMo_Vm7VhY
 
 ###
 

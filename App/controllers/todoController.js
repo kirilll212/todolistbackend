@@ -1,9 +1,23 @@
 const Todo = require('../models/todo');
+const User = require('../models/user')
+const config = require('../util/config')
+const jwt = require('jsonwebtoken')
+
 class TodoController {
   async getTodo(req, res) {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, config.jwtSecret);
+    
     try {
-      const todos = await Todo.findAll();
-      res.json(todos);
+      const user = await User.findByPk(decodedToken.userId, {
+        include: Todo,
+      });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json(user.todos);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -48,10 +62,21 @@ class TodoController {
 
   async createTodo(req, res) {
     const { todo } = req.body;
-
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, config.jwtSecret);
+    
     try {
-      await Todo.create({ todo: todo });
-      res.status(201).json({ message: 'Todo added successfully' });
+      const user = await User.findByPk(decodedToken.userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const createdTodo = await user.createTodo({
+        todo: todo,
+      });
+  
+      res.status(201).json({ message: 'Todo added successfully', todo: createdTodo });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
