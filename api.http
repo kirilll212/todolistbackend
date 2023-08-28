@@ -22,7 +22,7 @@ Content-Type: application/json
 
 POST {{url}}/todos/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIxODg2MywiZXhwIjoxNjkzMjIyNDYzfQ.MDxkzsPyONliYggO-H2Q5ACsDBPz7iMjDFMo_Vm7VhY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIyNTgwMiwiZXhwIjoxNjkzMjI5NDAyfQ.TbiegN21eWm__3723TEd0bCzMJhoRmgabfxLbcQRkCk
 
 
 {
@@ -33,7 +33,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 
 GET {{url}}/todos/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIxODg2MywiZXhwIjoxNjkzMjIyNDYzfQ.MDxkzsPyONliYggO-H2Q5ACsDBPz7iMjDFMo_Vm7VhY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIyNTgwMiwiZXhwIjoxNjkzMjI5NDAyfQ.TbiegN21eWm__3723TEd0bCzMJhoRmgabfxLbcQRkCk
 
 ###
 
