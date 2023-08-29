@@ -4,8 +4,8 @@ POST {{url}}/users/register
 Content-Type: application/json
 
 {
-    "email":"superAcc",
-    "password":"277353"
+    "email":"kiril1@gamil.ocm",
+    "password":"12345678K"
 }
 
 ###
@@ -14,26 +14,36 @@ POST {{url}}/users/login
 Content-Type: application/json
 
 {
-    "email":"superAcc",
-    "password":"277353"
+    "email":"kiril@gamil.ocm",
+    "password":"12345"
 }
 
 ###
 
-POST {{url}}/todos/create
+POST {{url}}/users/reset-password
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIyNTgwMiwiZXhwIjoxNjkzMjI5NDAyfQ.TbiegN21eWm__3723TEd0bCzMJhoRmgabfxLbcQRkCk
-
 
 {
-    "todo":"123"
+    "email":"kiril@gamil.ocm",
+    "newPassword":"0123456789K"
 }
 
 ###
 
 GET {{url}}/todos/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY5MzIyNTgwMiwiZXhwIjoxNjkzMjI5NDAyfQ.TbiegN21eWm__3723TEd0bCzMJhoRmgabfxLbcQRkCk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzMxMTE2NCwiZXhwIjoxNjkzMzE0NzY0fQ.B26OtFLqgSZzTMzpeeR4jUaGlWQDhpmYFWnFRzL6xXo
+
+###
+
+POST {{url}}/todos/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzMxMTE2NCwiZXhwIjoxNjkzMzE0NzY0fQ.B26OtFLqgSZzTMzpeeR4jUaGlWQDhpmYFWnFRzL6xXo
+
+
+{
+    "todo":"123"
+}
 
 ###
 
