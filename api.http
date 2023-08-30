@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "email":"kiril@gamil.ocm",
-    "password":"12345"
+    "password":"0123456789K"
 }
 
 ###
@@ -32,13 +32,13 @@ Content-Type: application/json
 
 GET {{url}}/todos/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzMxMTE2NCwiZXhwIjoxNjkzMzE0NzY0fQ.B26OtFLqgSZzTMzpeeR4jUaGlWQDhpmYFWnFRzL6xXo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzQwMTczMCwiZXhwIjoxNjkzNDA1MzMwfQ.rgO1DjQPzMUlmbLB3tBzxlJqcWMuyewAprJ8NNIGoVQ
 
 ###
 
 POST {{url}}/todos/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzMxMTE2NCwiZXhwIjoxNjkzMzE0NzY0fQ.B26OtFLqgSZzTMzpeeR4jUaGlWQDhpmYFWnFRzL6xXo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzQwMTczMCwiZXhwIjoxNjkzNDA1MzMwfQ.rgO1DjQPzMUlmbLB3tBzxlJqcWMuyewAprJ8NNIGoVQ
 
 
 {
@@ -47,15 +47,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhd
 
 ###
 
-PUT {{url}}/todos/update/1
+PUT {{url}}/todos/update/10
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzQwMTczMCwiZXhwIjoxNjkzNDA1MzMwfQ.rgO1DjQPzMUlmbLB3tBzxlJqcWMuyewAprJ8NNIGoVQ
 
 {
     "todo":"1234",
-    "completed":false
+    "completed":true
 }
 
 ###
 
-DELETE {{url}}/todos/delete/1
+DELETE {{url}}/todos/delete/9
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTY5MzQwMTczMCwiZXhwIjoxNjkzNDA1MzMwfQ.rgO1DjQPzMUlmbLB3tBzxlJqcWMuyewAprJ8NNIGoVQ
