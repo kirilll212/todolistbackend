@@ -1,0 +1,152 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: To-Do App API
+  description: API for managing to-do lists
+basePath: http://localhost:3000
+schemes:
+  - http
+  - https
+paths:
+  http://localhost:3000/todos:
+    get:
+      summary: Get a list of todos
+      responses:
+        '200':
+          description: A list of todos
+    post:
+      summary: Create a new todo
+      parameters:
+        - name: todo
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              todo:
+                type: string
+      responses:
+        '201':
+          description: Todo created successfully
+  http://localhost:3000/todos/{id}:
+    get:
+      summary: Get a todo by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: A single todo
+        '404':
+          description: Todo not found
+    put:
+      summary: Update a todo by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+        - name: todo
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              todo:
+                type: string
+              completed:
+                type: boolean
+      responses:
+        '200':
+          description: Todo updated successfully
+        '404':
+          description: Todo not found
+    delete:
+      summary: Delete a todo by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Todo deleted successfully
+        '404':
+          description: Todo not found
+  http://localhost:3000/users/register:
+    post:
+      summary: Register a new user
+      parameters:
+        - name: email
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              confirmPassword:
+                type: string
+      responses:
+        '201':
+          description: User registered successfully
+  http://localhost:3000/users/login:
+    post:
+      summary: Log in a user
+      parameters:
+        - name: email
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: User logged in successfully
+  http://localhost:3000/users/forgot-password:
+    post:
+      summary: Send password reset token to user's email
+      parameters:
+        - name: email
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+      responses:
+        '200':
+          description: Password reset token sent successfully
+  http://localhost:3000/users/reset-password:
+    post:
+      summary: Reset user's password
+      parameters:
+        - name: newPassword
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              newPassword:
+                type: string
+              confirmNewPassword:
+                type: string
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Password reset email sent successfully
