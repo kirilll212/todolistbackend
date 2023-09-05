@@ -3,8 +3,6 @@ const User = require('../models/user')
 const config = require('../util/config')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const emailValidator = require('email-validator')
-const passwordValidator = require('password-validator')
 const nodemailer = require('nodemailer')
 
 class userController {
@@ -12,16 +10,12 @@ class userController {
         try {
             const { email, password, confirmPassword } = req.body;
 
-            const schema = new passwordValidator().min(8, 'Password must be minimum length 8')
-                .uppercase(1, 'Password must have uppercase letter')
-                .digits(3, 'Password must have at least 3 digits')
-
-            if (!emailValidator.validate(email)) {
-                return res.status(400).json({ message: 'Invalid email format' })
+            if(!config.emailValidate(email)) {
+                return res.status(400).json({ message: 'Invalid email format' });
             }
-
-            if (!schema.validate(password)) {
-                return res.status(400).json({ message: 'Invalid password format' })
+            
+            if(!config.passwordValidate(password)) {
+                return res.status(400).json({ message: 'Invalid password format' });
             }
             
             if (confirmPassword != password) {
@@ -107,11 +101,7 @@ class userController {
         try {
             const { newPassword, confirmNewPassword } = req.body
 
-            const schema = new passwordValidator().min(8, 'Password must be minimum length 8')
-                .uppercase(1, 'Password must have uppercase letter')
-                .digits(3, 'Password must have at least 3 digits')
-
-            if (!schema.validate(newPassword)) {
+            if (!config.passwordValidate(newPassword)) {
                 return res.status(400).json({ message: 'Invalid password format' })
             }
 
@@ -149,7 +139,7 @@ class userController {
                 to: user.email,
                 subject: 'Password reset!',
                 text: `
-                Congratulations😊, your password has been successfully changed!
+                Congratulations! Your password has been successfully changed!
                 This is your new password: ${newPassword}`,
             })
 

@@ -4,9 +4,9 @@ POST {{url}}/users/register
 Content-Type: application/json
 
 {
-    "email":"kiril3@gamil.ocm",
-    "password":"123456789K",
-    "confirmPassword":"123456789K"
+    "email":"kiril4@gamil.com",
+    "password":"1234567K",
+    "confirmPassword":"1234567K"
 }
 
 ###
