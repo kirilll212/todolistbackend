@@ -1,24 +1,25 @@
 const Todo = require('../models/todo');
 const User = require('../models/user');
+const config = require('../util/config')
 
 class TodoController {
-  async getTodo(req, res) {
+  async getTodo(req, res, next) {
     try {
       const user = await User.findByPk(req.userData.userId, {
         include: Todo,
       });
 
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        throw new Error('User not found!')
       }
 
       res.json(user.todos);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err)
     }
   }
 
-  async updateTodo(req, res) {
+  async updateTodo(req, res, next) {
     const id = req.params.id;
     const { todo, completed } = req.body;
 
@@ -26,43 +27,51 @@ class TodoController {
       const todoInstance = await Todo.findByPk(id);
 
       if (!todoInstance) {
-        return res.status(404).json({ message: `Todo with id - ${id} not found` });
+        throw new Error(`Todo with id - ${id} not found`)
+      }
+
+      if (typeof todo !== 'string' || typeof completed !== 'boolean') {
+        throw new Error('Invalid input data!')
       }
 
       await todoInstance.update({ todo, completed });
 
       res.json({ message: `Todo with id - ${id} updated successfully` });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err)
     }
   }
 
-  async deleteTodo(req, res) {
+  async deleteTodo(req, res, next) {
     const id = req.params.id;
 
     try {
       const todoInstance = await Todo.findByPk(id);
 
       if (!todoInstance) {
-        return res.status(404).json({ message: `Todo with id - ${id} not found` });
+        throw new Error(`Todo with id - ${id} not found`)
       }
 
       await todoInstance.destroy();
 
       res.json({ message: `Todo with id - ${id} deleted successfully` });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err)
     }
   }
 
-  async createTodo(req, res) {
+  async createTodo(req, res, next) {
     const { todo } = req.body;
 
     try {
       const user = await User.findByPk(req.userData.userId);
 
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        throw new Error('User not found!')
+      }
+
+      if (typeof todo !== 'string') {
+        throw new Error('Invalid input data')
       }
 
       const createdTodo = await user.createTodo({
@@ -71,7 +80,7 @@ class TodoController {
 
       res.status(201).json({ message: 'Todo added successfully', todo: createdTodo });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      next(err)
     }
   }
 }

@@ -6,23 +6,27 @@ const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
 class userController {
-    async register(req, res) {
+    async register(req, res, next) {
         try {
             const { email, password, confirmPassword } = req.body;
 
             if(!config.emailValidate(email)) {
-                return res.status(400).json({ message: 'Invalid email format' });
+                throw new Error('Invalid email format');
             }
             
             if(!config.passwordValidate(password)) {
-                return res.status(400).json({ message: 'Invalid password format' });
+                throw new Error('Invalid password format');
             }
             
             if (confirmPassword != password) {
-                return res.status(400).json({ message: 'Password does not match' })
+                throw new Error('Password does not match')
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
+
+            if (typeof email !== 'string' || typeof password !== 'string' || typeof confirmPassword !== 'string') {
+                throw new Error('Invalid input data')
+            }
 
             const user = await User.create({
                 email: email,
@@ -34,42 +38,50 @@ class userController {
             res.status(201).json({ message: 'User registered successfully', token: token });
         }
         catch (err) {
-            res.status(500).json({ error: err.message });
+            next(err)
         }
     }
 
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const { email, password } = req.body;
+
+            if (typeof email !== 'string' || typeof password !== 'string') {
+                throw new Error('Invalid input data')
+            }
 
             const user = await User.findOne({ where: { email } });
 
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                throw new Error('User not found');
             }
 
             const passwordMatch = await bcrypt.compare(password, user.password);
 
             if (!passwordMatch) {
-                return res.status(401).json({ message: 'Invalid credentials' });
+                throw new Error('Invalid credentials');
             }
 
             const token = jwt.sign({ userId: user.id }, config.jwtSecret, { expiresIn: '1h' });
 
             res.json({ message: 'User logged in successfully', token: token });
         } catch (err) {
-            res.status(500).json({ error: err.message });
+            next(err)
         }
     }
 
-    async forgotPassword(req, res) {
+    async forgotPassword(req, res, next) {
         try {
             const { email } = req.body
+
+            if (typeof email !== 'string') {
+                throw new Error('Invalid input data')
+            }
 
             const user = await User.findOne({ where: { email } })
 
             if (!user) {
-                return res.status(400).json({ message: 'User not found!' })
+                throw new Error('User not found!')
             }
 
             const token = jwt.sign({ userId: user.id }, config.jwtSecret, { expiresIn: '1h' })
@@ -93,20 +105,20 @@ class userController {
 
             res.status(200).json({ message: 'Password reset token sent successfuly' })
         } catch (err) {
-            res.status(500).json({ error: err.message })
+            next(err)
         }
     }
 
-    async reserPassword(req, res) {
+    async reserPassword(req, res, next) {
         try {
             const { newPassword, confirmNewPassword } = req.body
 
             if (!config.passwordValidate(newPassword)) {
-                return res.status(400).json({ message: 'Invalid password format' })
+                throw new Error('Invalid password format')
             }
 
             if (confirmNewPassword != newPassword) {
-                return res.status(400).json({ message: 'Password does not match' })
+                throw new Error('Password does not match')
             }
 
             const token = req.headers.authorization.split(' ')[1];
@@ -118,10 +130,15 @@ class userController {
             const user = await User.findByPk(userId);
     
             if (!user) {
-                return res.status(400).json({ message: 'User not found!' });
+                throw new Error('User not found!');
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+            if (typeof newPassword !== 'string' || typeof confirmNewPassword !== 'string') {
+                throw new Error('Invalid input data')
+            }
+
             await user.update({ password: hashedPassword })
 
             const transporter = nodemailer.createTransport({
@@ -145,7 +162,7 @@ class userController {
 
             res.status(200).json({ message: 'Password reset email sent successfuly' })
         } catch (err) {
-            res.status(500).json({ error: err.message })
+            next(err)
         }
     }
 }
