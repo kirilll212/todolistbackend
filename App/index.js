@@ -2,6 +2,8 @@ const express = require('express')
 const sequelize = require('./util/database')
 const userRoute = require('./routes/users')
 const todoRoute = require('./routes/todos')
+const adminController = require('./controllers/adminController')
+const path = require('path')
 const authMiddleware = require('./controllers/middleware/authMiddleware')
 const errorMiddleware = require('./controllers/middleware/errorMiddleware')
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -11,8 +13,18 @@ const router = new Router();
 const app = express()
 const port = process.env.PORT || 3000
 
+app.set('view engine', 'ejs'); 
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.json());
 app.use('/admin', express.static(__dirname + '/public/admin'))
+
+app.get('/admin', (req, res) => {
+  res.render('pages/index');
+})
+
+app.get('/admin/todos', adminController.renderTodoList);
+app.get('/admin/users', adminController.renderUserList)
 
 const swaggerOptions = {
   swaggerDefinition: {

@@ -1,23 +1,31 @@
-const Sequelize = require('sequelize');
-const db = require('../util/database')
+const { DataTypes, Model } = require('sequelize');
+const db = require('../util/database');
 
-const Todo = db.define('todo', {
+class Todo extends Model {}
+
+Todo.init(
+  {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
     },
     todo: {
-        type: Sequelize.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     completed: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    }
-})
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+  },
+  {
+    sequelize: db,
+    modelName: 'Todo',
+    tableName: 'todos',
+  }
+);
 
-
-module.exports = Todo
+module.exports = Todo;

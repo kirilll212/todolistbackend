@@ -15,7 +15,7 @@ POST {{url}}/users/login
 Content-Type: application/json
 
 {
-    "email":"kiril4@gamil.com",
+    "email":"kiril5@gamil.com",
     "password":"1234567K"
 }
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 POST {{url}}/users/reset-password
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTY5MzgzMDYyOSwiZXhwIjoxNjkzODM0MjI5fQ.vVi-R2efPKZr5kdPxhO2C-qJxy1sn9kLQBgwcxUudRQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTIxMTAwMCwiZXhwIjoxNjk1MjE0NjAwfQ.VSOwu1Lq8Uhl8YyHnqmqoevtPA_dZuTQwDwadCePEWY
 
 {
     "newPassword":"0123456789K",
@@ -43,27 +43,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhd
 
 GET {{url}}/todos/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE2OTM5MjA1NTgsImV4cCI6MTY5MzkyNDE1OH0.jZxoBtynISBrkzlVy4kxrtB4J_0Cm6NYFJI-8FB8O2Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTIxMTAwMCwiZXhwIjoxNjk1MjE0NjAwfQ.VSOwu1Lq8Uhl8YyHnqmqoevtPA_dZuTQwDwadCePEWY
 
 ###
 
 POST {{url}}/todos/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTY5MzgzMDY4MiwiZXhwIjoxNjkzODM0MjgyfQ.ge99ckQtz_47Dx4y0N7TIIo6qw62aRmG5WUBG6EwnVg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTIxMTAwMCwiZXhwIjoxNjk1MjE0NjAwfQ.VSOwu1Lq8Uhl8YyHnqmqoevtPA_dZuTQwDwadCePEWY
 
 
 {
-    "todo":"123"
+    "todo":"supertodo"
 }
 
 ###
 
-PUT {{url}}/todos/update/10
+PUT {{url}}/todos/update/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTY5MzgzMDY4MiwiZXhwIjoxNjkzODM0MjgyfQ.ge99ckQtz_47Dx4y0N7TIIo6qw62aRmG5WUBG6EwnVg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTIxMTAwMCwiZXhwIjoxNjk1MjE0NjAwfQ.VSOwu1Lq8Uhl8YyHnqmqoevtPA_dZuTQwDwadCePEWY
 
 {
-    "todo":"1234",
+    "todo":"supertodo",
     "completed":true
 }
 
@@ -71,4 +71,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhd
 
 DELETE {{url}}/todos/delete/9
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTY5MzgzMDY4MiwiZXhwIjoxNjkzODM0MjgyfQ.ge99ckQtz_47Dx4y0N7TIIo6qw62aRmG5WUBG6EwnVg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTIxMTAwMCwiZXhwIjoxNjk1MjE0NjAwfQ.VSOwu1Lq8Uhl8YyHnqmqoevtPA_dZuTQwDwadCePEWY

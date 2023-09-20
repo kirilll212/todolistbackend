@@ -1,6 +1,5 @@
 const Todo = require('../models/todo');
 const User = require('../models/user');
-const config = require('../util/config')
 
 class TodoController {
   async getTodo(req, res, next) {

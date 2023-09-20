@@ -1,25 +1,37 @@
-const Sequelize = require('sequelize')
-const db = require('../util/database')
-const Todo = require('./todo')
+const { DataTypes, Model } = require('sequelize');
+const db = require('../util/database');
+const Todo = require('./todo');
 
-const User = db.define('user', {
+class User extends Model {}
+
+User.init(
+  {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
     },
     email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
     },
     password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    }
-})
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: db,
+    modelName: 'User',
+    tableName: 'users',
+  }
+);
 
-User.hasMany(Todo, {onDelete: 'CASCADE'})
+User.hasMany(Todo, {
+  onDelete: 'CASCADE',
+  foreignKey: 'userId',
+});
 
-module.exports = User
+module.exports = User;
