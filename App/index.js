@@ -8,6 +8,7 @@ const authMiddleware = require('./controllers/middleware/authMiddleware')
 const errorMiddleware = require('./controllers/middleware/errorMiddleware')
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const checkBan = require('./controllers/middleware/checkBan')
 const Router = express.Router;
 const router = new Router();
 const app = express()
@@ -23,8 +24,11 @@ app.get('/admin', (req, res) => {
   res.render('pages/index');
 })
 
-app.get('/admin/todos', adminController.renderTodoList);
+app.get('/admin/todos', adminController.renderTodoList)
 app.get('/admin/users', adminController.renderUserList)
+app.get('/admin/delete/:id', adminController.deleteUser)
+app.put('/admin/edit/:id', adminController.editUser)
+app.put('/admin/edit/status/:id', adminController.editUserStatus);
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -44,7 +48,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(errorMiddleware)
 
 app.use('/users', userRoute(router))
-app.use('/todos', authMiddleware, todoRoute(router))
+app.use('/todos', authMiddleware, checkBan, todoRoute(router))
 
 sequelize.sync().then(() => {
   console.log('Database connected');

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ToDo List Dashboard</title>
+    <title>ToDo List Admin Panel</title>
 
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
@@ -64,7 +64,7 @@
                 <li class="dropdown dropdown-user">
                     <a class="dropdown-toggle" data-toggle="dropdown">
                         <img src="assets/images/placeholder.jpg" alt="">
-                        <span>Victoria</span>
+                        <span>Kiril</span>
                         <i class="caret"></i>
                     </a>
 
@@ -153,6 +153,8 @@
                                         <th>ID</th>
                                         <th>Email</th>
                                         <th>Password</th>
+                                        <th>Status</th>
+                                        <th>Options</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -162,16 +164,35 @@
                                                 <%= user.id %>
                                             </td>
                                             <td>
-                                                <%= user.email %>
+                                                <span class="editable" id="email_<%= user.id %>">
+                                                    <%= user.email %>
+                                                </span>
+                                                <input type="text" class="form-control hidden"
+                                                    id="email_input_<%= user.id %>" value="<%= user.email %>">
                                             </td>
                                             <td>
                                                 <%= user.password %>
+                                            </td>
+                                            <td>
+                                                <% if (user.status) { %>
+                                                    <span class="badge badge-danger">Заблокований</span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-success">Активний</span>
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/edit/<%= user.id %>" class="btn btn-primary edit-button"
+                                                    data-id="<%= user.id %>">Edit</a>
+                                                <a href="/admin/delete/<%= user.id %>" class="btn btn-danger">Delete</a>
+                                                <a href="/admin/edit/status/<%= user.id %>"
+                                                    class="btn btn-info ban-button" data-id="<%= user.id %>">
+                                                    <%= user.status ? 'Розбанити' : 'Забанити' %>
+                                                </a>
                                             </td>
                                         </tr>
                                         <% }); %>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <!-- /dashboard content -->
@@ -193,6 +214,81 @@
 
     </div>
     <!-- /page container -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // JavaScript для включення режиму редагування email
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".edit-button");
+            editButtons.forEach(function (button) {
+                button.addEventListener("click", async function (event) {
+                    event.preventDefault();
+                    const userId = this.getAttribute("data-id");
+                    const emailSpan = document.getElementById(`email_${userId}`);
+                    const emailInput = document.getElementById(`email_input_${userId}`);
+                    const saveButton = this;
+
+                    if (emailInput.classList.contains("hidden")) {
+                        // Перехід до режиму редагування
+                        emailSpan.classList.add("hidden");
+                        emailInput.classList.remove("hidden");
+                        saveButton.textContent = "Save";
+                    } else {
+                        // Збереження змін
+                        const newEmail = emailInput.value;
+
+                        try {
+                            // Відправка PUT-запиту на сервер для оновлення email
+                            const response = await axios.put(`/admin/edit/${userId}`, { newEmail });
+
+                            if (response.status === 200) {
+                                // Оновлення успішно виконано
+                                emailSpan.textContent = newEmail;
+                                emailSpan.classList.remove("hidden");
+                                emailInput.classList.add("hidden");
+                                saveButton.textContent = "Edit";
+                            } else {
+                                console.error("Помилка при оновленні email.");
+                            }
+                        } catch (error) {
+                            console.error("Помилка при відправці PUT-запиту: " + error);
+                        }
+                    }
+                });
+            });
+            const banButtons = document.querySelectorAll(".ban-button");
+
+            banButtons.forEach(function (button) {
+                button.addEventListener("click", async function (event) {
+                    event.preventDefault();
+                    const userId = this.getAttribute("data-id");
+                    const banButton = this;
+                    const isBanned = banButton.textContent === "Забанити";
+
+                    try {
+                        // Відправка PUT-запиту на сервер для зміни статусу
+                        const response = await axios.put(`/admin/edit/status/${userId}`);
+
+                        if (response.status === 200) {
+                            // Оновлення успішно виконано
+                            if (isBanned) {
+                                banButton.textContent = "Розбанити";
+                                banButton.classList.remove("btn-danger");
+                                banButton.classList.add("btn-success");
+                            } else {
+                                banButton.textContent = "Забанити";
+                                banButton.classList.remove("btn-success");
+                                banButton.classList.add("btn-danger");
+                            }
+                        } else {
+                            console.error("Помилка при оновленні статусу.");
+                        }
+                    } catch (error) {
+                        console.error("Помилка при відправці PUT-запиту: " + error);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

@@ -18,6 +18,52 @@ class adminController {
             next(err)
         }
     }
+
+    async deleteUser(req, res, next) {
+        const userId = req.params.id;
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'Користувача не знайдено' }) && alert('User was not found');
+            }
+            await user.destroy();
+            return res.status(204).send();
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async editUser(req, res, next) {
+        const userId = req.params.id;
+        const newEmail = req.body.newEmail;
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'Користувача не знайдено' });
+            }
+            await user.update({ email: newEmail });
+            return res.status(200).send();
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async editUserStatus(req, res, next) {
+        const userId = req.params.id;
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'Користувача не знайдено' });
+            }
+
+            user.status = !user.status;
+            await user.save();
+
+            return res.status(200).send();
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new adminController()
