@@ -10,6 +10,7 @@ class adminController {
             next(err)
         }
     }
+    
     async renderUserList(req, res, next) {
         try {
             const users = await User.findAll()

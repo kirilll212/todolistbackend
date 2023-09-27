@@ -14,6 +14,7 @@
   <link href="assets/css/core.css" rel="stylesheet" type="text/css">
   <link href="assets/css/components.css" rel="stylesheet" type="text/css">
   <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
   <!-- /global stylesheets -->
 
   <!-- Core JS files -->
@@ -36,6 +37,9 @@
   <script type="text/javascript" src="assets/js/core/app.js"></script>
   <script type="text/javascript" src="assets/js/pages/dashboard.js"></script>
   <script type="text/javascript" src="assets/js/pages/layout_fixed_custom.js"></script>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
   <!-- /theme JS files -->
 
 </head>
@@ -144,7 +148,7 @@
           <div class="row">
             <div id="main">
               <h1>Todo List</h1>
-              <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped todoTable">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -189,6 +193,13 @@
 
   </div>
   <!-- /page container -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+  <script>
+    $(document).ready(function () {
+        $('.todoTable').DataTable();
+    });
+</script>
 
 </body>
 

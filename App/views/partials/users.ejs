@@ -15,6 +15,7 @@
     <link href="assets/css/core.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
@@ -37,6 +38,9 @@
     <script type="text/javascript" src="assets/js/core/app.js"></script>
     <script type="text/javascript" src="assets/js/pages/dashboard.js"></script>
     <script type="text/javascript" src="assets/js/pages/layout_fixed_custom.js"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <!-- /theme JS files -->
 
 </head>
@@ -147,7 +151,7 @@
                         <div id="main">
                             <h1>Users List</h1>
 
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" id="usersTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -175,9 +179,9 @@
                                             </td>
                                             <td>
                                                 <% if (user.status) { %>
-                                                    <span class="badge badge-danger">Заблокований</span>
+                                                    <span class="badge badge-danger">Banned</span>
                                                     <% } else { %>
-                                                        <span class="badge badge-success">Активний</span>
+                                                        <span class="badge badge-success">Active</span>
                                                         <% } %>
                                             </td>
                                             <td>
@@ -186,7 +190,7 @@
                                                 <a href="/admin/delete/<%= user.id %>" class="btn btn-danger">Delete</a>
                                                 <a href="/admin/edit/status/<%= user.id %>"
                                                     class="btn btn-info ban-button" data-id="<%= user.id %>">
-                                                    <%= user.status ? 'Розбанити' : 'Забанити' %>
+                                                    <%= user.status ? 'Unban' : 'Ban' %>
                                                 </a>
                                             </td>
                                         </tr>
@@ -215,8 +219,15 @@
     </div>
     <!-- /page container -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
     <script>
-        // JavaScript для включення режиму редагування email
+        $(document).ready(function () {
+            $('#usersTable').DataTable();
+        });
+    </script>
+
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll(".edit-button");
             editButtons.forEach(function (button) {
@@ -228,20 +239,16 @@
                     const saveButton = this;
 
                     if (emailInput.classList.contains("hidden")) {
-                        // Перехід до режиму редагування
                         emailSpan.classList.add("hidden");
                         emailInput.classList.remove("hidden");
                         saveButton.textContent = "Save";
                     } else {
-                        // Збереження змін
                         const newEmail = emailInput.value;
 
                         try {
-                            // Відправка PUT-запиту на сервер для оновлення email
                             const response = await axios.put(`/admin/edit/${userId}`, { newEmail });
 
                             if (response.status === 200) {
-                                // Оновлення успішно виконано
                                 emailSpan.textContent = newEmail;
                                 emailSpan.classList.remove("hidden");
                                 emailInput.classList.add("hidden");
@@ -262,23 +269,18 @@
                     event.preventDefault();
                     const userId = this.getAttribute("data-id");
                     const banButton = this;
-                    const isBanned = banButton.textContent === "Забанити";
+                    const isBanned = banButton.textContent === "Ban";
 
                     try {
-                        // Відправка PUT-запиту на сервер для зміни статусу
                         const response = await axios.put(`/admin/edit/status/${userId}`);
 
                         if (response.status === 200) {
-                            // Оновлення успішно виконано
                             if (isBanned) {
-                                banButton.textContent = "Розбанити";
-                                banButton.classList.remove("btn-danger");
-                                banButton.classList.add("btn-success");
+                                banButton.textContent = "Unban";
                             } else {
-                                banButton.textContent = "Забанити";
-                                banButton.classList.remove("btn-success");
-                                banButton.classList.add("btn-danger");
+                                banButton.textContent = "Ban";
                             }
+                            location.reload()
                         } else {
                             console.error("Помилка при оновленні статусу.");
                         }
