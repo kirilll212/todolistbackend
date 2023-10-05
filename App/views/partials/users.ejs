@@ -223,8 +223,12 @@
 
     <script>
         $(document).ready(function () {
-            $('#usersTable').DataTable();
+            $('#usersTable').DataTable({
+                "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+                "pageLength": 25
+            });
         });
+
     </script>
 
     <script>

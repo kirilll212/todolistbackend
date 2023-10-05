@@ -25,7 +25,7 @@ class adminController {
         try {
             const user = await User.findByPk(userId);
             if (!user) {
-                return res.status(404).json({ message: 'Користувача не знайдено' }) && alert('User was not found');
+                throw new Error('User was not found')
             }
             await user.destroy();
             return res.status(204).send();
@@ -40,7 +40,7 @@ class adminController {
         try {
             const user = await User.findByPk(userId);
             if (!user) {
-                return res.status(404).json({ message: 'Користувача не знайдено' });
+                throw new Error('User was not found')
             }
             await user.update({ email: newEmail });
             return res.status(200).send();
@@ -54,7 +54,7 @@ class adminController {
         try {
             const user = await User.findByPk(userId);
             if (!user) {
-                return res.status(404).json({ message: 'Користувача не знайдено' });
+                throw new Error('User was not found')
             }
 
             user.status = !user.status;

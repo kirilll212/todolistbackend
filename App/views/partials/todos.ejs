@@ -197,9 +197,12 @@
 
   <script>
     $(document).ready(function () {
-        $('.todoTable').DataTable();
+      $('.todoTable').DataTable({
+        "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+        "pageLength": 25
+      });
     });
-</script>
+  </script>
 
 </body>
 
