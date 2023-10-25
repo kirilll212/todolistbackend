@@ -1,7 +1,6 @@
 {
   "name": "todolistv2",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./App/index"
@@ -23,5 +22,8 @@
     "sequelize": "^6.32.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
 }
